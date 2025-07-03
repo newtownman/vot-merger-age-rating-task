@@ -12,11 +12,11 @@
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
   <style>
-    /* 2번 질문에서 clear, ... 버튼을 다시 보이게 하려면 아래 CSS를 제거하거나 주석 처리하세요 */
-    /* .sv-clear-button,
+    /* 아래 CSS를 반드시 추가! Clear, ... 버튼 완전 숨김 */
+    .sv-clear-button,
     .sv-dropdown__button {
       display: none !important;
-    } */
+    }
     .sv_q_radiogroup {
       display: block !important;
     }
@@ -33,7 +33,7 @@
     authDomain: "vot-merger-age-rating-task.firebaseapp.com",
     databaseURL: "https://vot-merger-age-rating-task-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "vot-merger-age-rating-task",
-    storageBucket: "vot-merger-age-rating-task.firebasestorage.app",
+    storageBucket: "vot-merger-age-rating-task.appspot.com", // <-- 오타 수정
     messagingSenderId: "456169777676",
     appId: "1:456169777676:web:d7b5fafc0fb3f3383e5c29",
     measurementId: "G-PNGYMT1HH8"
@@ -115,9 +115,9 @@
           title: "화자는 어느 지역 출신처럼 들리십니까?",
           choices: ["서울", "경상", "전라", "충청"],
           isRequired: true,
-          showClearButton: true,         // clear 버튼 보이게
+          showClearButton: true,
           showOtherItem: false,
-          colCount: 1                    // 1: 세로, 2: 가로
+          colCount: 1
         },
         {
           type: "rating",
@@ -128,8 +128,8 @@
           isRequired: true,
           minRateDescription: "",
           maxRateDescription: "",
-          displayMode: "buttons",        // 버튼형 리커트 (SurveyJS 최신 옵션)
-          colCount: 2                    // 2로 하면 가로로 보임, 1은 세로
+          displayMode: "buttons",
+          colCount: 2
         }
       ]
     };
@@ -140,7 +140,6 @@
       button_label_finish: "다음",
       data: { audio_file: audiofile, trial_tag: 'audio_trial' },
       on_finish: function(data) {
-        // response를 flat하게 trial 데이터로 펼침
         if(data.response){
           Object.entries(data.response).forEach(([k, v]) => data[k] = v);
           delete data.response;
