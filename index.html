@@ -110,7 +110,7 @@
           type: "html",
           name: "audio_" + idx,
           html: `
-            <p><b>아래 음성 파일을 들어보세요.</b></p>
+            <p><b>아래 음성 파일을 들어주세요.</b></p>
             <audio controls>
               <source src="${audiofile}" type="audio/wav">
               브라우저가 오디오 태그를 지원하지 않습니다.
@@ -121,7 +121,7 @@
         {
           type: "text",
           name: "age",
-          title: "화자의 목소리는 몇 살처럼 들리십니까? (10~99 사이의 숫자를 입력)",
+          title: "화자의 목소리는 몇 살처럼 들립니까? (10~99 사이의 숫자를 입력)",
           inputType: "number",
           min: 10,
           max: 99,
@@ -130,7 +130,7 @@
         {
           type: "radiogroup",
           name: "region",
-          title: "화자는 어느 지역 출신처럼 들리십니까?",
+          title: "화자는 어느 지역 출신처럼 들립니까?",
           choices: ["서울", "경상", "전라", "충청"],
           isRequired: true,
           showClearButton: true,
@@ -140,7 +140,7 @@
         {
           type: "rating",
           name: "machine",
-          title: "화자는 얼마나 기계음, 합성음처럼 들립니까?",
+          title: "화자의 발화는 얼마나 기계음처럼 들립니까?",
           rateMin: 0,
           rateMax: 4,
           isRequired: true,
