@@ -48,7 +48,6 @@
         csv: data,
         timestamp: new Date().toISOString()
       });
-      // csv 다운로드/표시 없음
     }
   });
 
@@ -64,16 +63,13 @@
     choices: [' ']
   };
 
-  // 오디오 파일 리스트
+  // 오디오 파일 리스트 (파일명만 영어/숫자로)
   const stimuli = [
-    "nof_선경_1.wav","nof_선희_1.wav","nof_유진_1.wav","nof_진아_1.wav","nof_희그리다_1.wav",
-    "nom_김종억_1.wav","nom_수아아빠_1.wav","nom_코말소_1.wav",
-    "nyf_기서_1.wav","nyf_민영_1.wav","nyf_소현_1.wav","nyf_루나_1.wav","nyf_지요_1.wav",
-    "nym_대성_1.wav","nym_동현_1.wav","nym_이안_1.wav","nym_종혁_1.wav","nym_최루비_1.wav",
-    "tof_선영_1.wav","tof_순이_1.wav","tof_인선_1.wav","tof_정순_1.wav","tof_주하_1.wav",
-    "tom_덕춘_1.wav","tom_덕환_1.wav","tom_영길_1.wav","tom_종현_1.wav","tom_창배_1.wav",
-    "tyf_세희_1.wav","tyf_시연_1.wav","tyf_예린_1.wav","tyf_유라_1.wav","tyf_이나_1.wav",
-    "tym_김건_1.wav","tym_서준_1.wav","tym_지훈_1.wav","tym_진우_1.wav","tym_현우_1.wav"
+    "1_1.wav",
+    "2_1.wav",
+    "3_1.wav",
+    "4_1.wav",
+    "5_1.wav"
   ];
 
   const shuffled = jsPsych.randomization.shuffle(stimuli);
