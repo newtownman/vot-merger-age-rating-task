@@ -52,11 +52,21 @@
   // jsPsych 초기화 (Firebase 저장)
   const jsPsych = initJsPsych({
     on_finish: function() {
-      // 오디오 trial만 추출
-      const trials = jsPsych.data.get().filter({trial_tag: 'audio_trial'}).values();
+      // 오디오 trial만 추출 (불필요한 정보 제거)
+      let trials = jsPsych.data.get().filter({trial_tag: 'audio_trial'}).values();
+      // 필요한 정보만 남김
+      trials = trials.map((trial, idx) => ({
+        trial_number: idx,
+        audio_file: trial.audio_file,
+        age: trial.age,
+        region: trial.region,
+        machine: trial.machine
+      }));
+
       // 계좌번호 trial 추출
       const account_trial = jsPsych.data.get().filter({trial_tag: 'account_info'}).last(1).values()[0];
       const account_number = account_trial ? account_trial.account_number || null : null;
+
       db.ref('responses').push({
         trials: trials,
         account_number: account_number,
