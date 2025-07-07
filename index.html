@@ -123,59 +123,59 @@
 
   shuffled.forEach((audiofile, idx) => {
     const survey_json = {
-      elements: [
-        {
-          type: "html",
-          name: "audio_" + idx,
-          html: `
-            <p><b>아래 음성 파일을 들어주세요.</b></p>
-            <audio controls>
-              <source src="${audiofile}" type="audio/wav">
-              브라우저가 오디오 태그를 지원하지 않습니다.
-            </audio>
-            <hr>
-          `
-        },
-        {
-          type: "html",
-          name: "audio_question_" + idx,
-          html: `<p style="font-weight:bold; margin-bottom:0.5em;">Q. 이 목소리의 주인공은?</p>`
-        },
-        {
-  type: "text",
-  name: "age",
-  title: "몇 살처럼 들리나요?",
-  description: "<span style='font-size:0.95em; color:#666;'>(예를 들어, 10살 쯤이라 느낀다 해서 10이라 쓰지 말고<br>12, 11과 같이 최대한 이 사람이 정확히 몇 살일지 써주세요.)</span>",
-  inputType: "number",
-  min: 10,
-  max: 99,
-  isRequired: true
-}
-,
-        {
-          type: "radiogroup",
-          name: "region",
-          title: "어느 지역 출신처럼 들리나요?",
-          choices: ["서울", "경상", "전라", "충청"],
-          isRequired: true,
-          showClearButton: true,
-          showOtherItem: false,
-          colCount: 1
-        },
-        {
-          type: "rating",
-          name: "machine",
-          title: "얼마나 기계음처럼 들리나요?",
-          rateMin: 0,
-          rateMax: 4,
-          isRequired: true,
-          minRateDescription: "사람과 매우 비슷하다",
-          maxRateDescription: "매우 기계 같다",
-          displayMode: "buttons",
-          colCount: 2
-        }
-      ]
-    };
+  elements: [
+    {
+      type: "html",
+      name: "audio_" + idx,
+      html: `
+        <p><b>아래 음성 파일을 들어주세요.</b></p>
+        <audio controls>
+          <source src="${audiofile}" type="audio/wav">
+          브라우저가 오디오 태그를 지원하지 않습니다.
+        </audio>
+        <hr>
+      `
+    },
+    {
+      type: "html",
+      name: "audio_question_" + idx,
+      html: `<p style="font-weight:bold; margin-bottom:0.5em;">Q. 이 목소리의 주인공은?</p>`
+    },
+    {
+      type: "text",
+      name: "age",
+      title: "몇 살처럼 들리나요?",
+      description: "<span style='font-size:0.95em; color:#666;'>(예를 들어, 10살 쯤이라 느낀다 해서 10이라 쓰지 말고<br>12, 11과 같이 최대한 이 사람이 정확히 몇 살일지 써주세요.)</span>",
+      inputType: "number",
+      min: 10,
+      max: 99,
+      isRequired: true
+    },
+    {
+      type: "radiogroup",
+      name: "region",
+      title: "어느 지역 출신처럼 들리나요?",
+      choices: ["서울", "경상", "전라", "충청"],
+      isRequired: true,
+      showClearButton: true,
+      showOtherItem: false,
+      colCount: 1
+    },
+    {
+      type: "rating",
+      name: "machine",
+      title: "얼마나 기계음처럼 들리나요?",
+      rateMin: 0,
+      rateMax: 4,
+      isRequired: true,
+      minRateDescription: "사람과 매우 비슷하다",
+      maxRateDescription: "매우 기계 같다",
+      displayMode: "buttons",
+      colCount: 2
+    }
+  ]
+};
+
 
     timeline.push({
       type: jsPsychSurvey,
