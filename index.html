@@ -93,7 +93,8 @@
         audio_file: trial.audio_file,
         age: trial.age,
         region: trial.region,
-        machine: trial.machine
+        machine: trial.machine,
+        audio_played: trial.audio_played === true // undefined도 false로 처리
       }));
 
       const account_trial = jsPsych.data.get().filter({trial_tag: 'account_info'}).last(1).values()[0];
@@ -195,6 +196,14 @@
       button_label_finish: "다음",
       data: { audio_file: audiofile, trial_tag: 'audio_trial' },
       on_start: function() {
+        // 오디오 재생 여부 추적
+        window.audioPlayed = false;
+        setTimeout(() => {
+          const audio = document.querySelector('audio');
+          if (audio) {
+            audio.addEventListener('play', () => { window.audioPlayed = true; });
+          }
+        }, 100);
         document.getElementById('progress-indicator').innerText = `${idx + 1}/${total_trials}`;
       },
       on_finish: function(data) {
@@ -202,6 +211,8 @@
           Object.entries(data.response).forEach(([k, v]) => data[k] = v);
           delete data.response;
         }
+        // 오디오 재생 여부 저장
+        data.audio_played = window.audioPlayed ? true : false;
       }
     });
   });
