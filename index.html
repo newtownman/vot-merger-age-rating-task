@@ -12,12 +12,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
   <style>
-    /* 모바일/PC 전체 폰트 크게 */
     html, body, .jspsych-content, .sv-root, .sv-question__title, .sv-string-viewer, input, select, button {
       font-size: 1.25rem !important;
       line-height: 1.5 !important;
     }
-    /* 진행도 표시 고정 */
     #progress-indicator {
       position: fixed;
       top: 12px;
@@ -33,7 +31,6 @@
       pointer-events: none;
       user-select: none;
     }
-    /* 기타 버튼 숨김 */
     .sd-action__title {
       display: none !important;
     }
@@ -73,7 +70,6 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // 오디오 파일 리스트
   const stimuli = [
     "1_1.wav",
     "2_1.wav",
@@ -82,7 +78,6 @@
     "5_1.wav"
   ];
 
-  // jsPsych 초기화 (Firebase 저장)
   const jsPsych = initJsPsych({
     on_finish: function() {
       let trials = jsPsych.data.get().filter({trial_tag: 'audio_trial'}).values();
@@ -105,11 +100,8 @@
     }
   });
 
-  // 진행도 표시용 변수
   const total_trials = stimuli.length;
-  let trial_count = 0;
 
-  // 안내멘트(시작)
   const intro = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
@@ -124,62 +116,121 @@
     }
   };
 
-  // 오디오 파일 랜덤 순서
   const shuffled = jsPsych.randomization.shuffle(stimuli);
 
   let timeline = [];
   timeline.push(intro);
 
-  // 오디오 평가 trial
   shuffled.forEach((audiofile, idx) => {
     const survey_json = {
-elements: [
-  {
-    type: "html",
-    name: "audio_" + idx,
-    html: `
-      <p><b>아래 음성 파일을 들어주세요.</b></p>
-      <audio controls>
-        <source src="${audiofile}" type="audio/wav">
-        브라우저가 오디오 태그를 지원하지 않습니다.
-      </audio>
-      <hr>
-    `
-  },
-  {
-    type: "html",
-    name: "audio_question_" + idx,
-    html: `<p style="font-weight:bold; margin-bottom:0.5em;">Q. 이 목소리의 주인공은?</p>`
-  },
-  {
-    type: "text",
-    name: "age",
-    title: "몇 살처럼 들리나요?<br><span style='font-size:0.95em; color:#666;'>(예를 들어, 10살 쯤이라 느낀다 해서 10이라 쓰지 말고<br>12,11과 같이 최대한 이 사람이 정확히 몇 살일지 써주세요.)</span>",
-    inputType: "number",
-    min: 10,
-    max: 99,
-    isRequired: true
-  },
-  {
-    type: "radiogroup",
-    name: "region",
-    title: "어느 지역 출신처럼 들리나요?",
-    choices: ["서울", "경상", "전라", "충청"],
-    isRequired: true,
-    showClearButton: true,
-    showOtherItem: false,
-    colCount: 1
-  },
-  {
-    type: "rating",
-    name: "machine",
-    title: "얼마나 기계음처럼 들리나요?",
-    rateMin: 0,
-    rateMax: 4,
-    isRequired: true,
-    minRateDescription: "사람과 매우 비슷하다",
-    maxRateDescription: "매우 기계 같다",
-    displayMode: "buttons",
-    colCount: 2
-  }
-]
+      elements: [
+        {
+          type: "html",
+          name: "audio_" + idx,
+          html: `
+            <p><b>아래 음성 파일을 들어주세요.</b></p>
+            <audio controls>
+              <source src="${audiofile}" type="audio/wav">
+              브라우저가 오디오 태그를 지원하지 않습니다.
+            </audio>
+            <hr>
+          `
+        },
+        {
+          type: "html",
+          name: "audio_question_" + idx,
+          html: `<p style="font-weight:bold; margin-bottom:0.5em;">Q. 이 목소리의 주인공은?</p>`
+        },
+        {
+          type: "text",
+          name: "age",
+          title: "몇 살처럼 들리나요?<br><span style='font-size:0.95em; color:#666;'>(예를 들어, 10살 쯤이라 느낀다 해서 10이라 쓰지 말고<br>12,11과 같이 최대한 이 사람이 정확히 몇 살일지 써주세요.)</span>",
+          inputType: "number",
+          min: 10,
+          max: 99,
+          isRequired: true
+        },
+        {
+          type: "radiogroup",
+          name: "region",
+          title: "어느 지역 출신처럼 들리나요?",
+          choices: ["서울", "경상", "전라", "충청"],
+          isRequired: true,
+          showClearButton: true,
+          showOtherItem: false,
+          colCount: 1
+        },
+        {
+          type: "rating",
+          name: "machine",
+          title: "얼마나 기계음처럼 들리나요?",
+          rateMin: 0,
+          rateMax: 4,
+          isRequired: true,
+          minRateDescription: "사람과 매우 비슷하다",
+          maxRateDescription: "매우 기계 같다",
+          displayMode: "buttons",
+          colCount: 2
+        }
+      ]
+    };
+
+    timeline.push({
+      type: jsPsychSurvey,
+      survey_json: survey_json,
+      button_label_finish: "다음",
+      data: { audio_file: audiofile, trial_tag: 'audio_trial' },
+      on_start: function() {
+        document.getElementById('progress-indicator').innerText = `${idx + 1}/${total_trials}`;
+      },
+      on_finish: function(data) {
+        if(data.response){
+          Object.entries(data.response).forEach(([k, v]) => data[k] = v);
+          delete data.response;
+        }
+      }
+    });
+  });
+
+  timeline.push({
+    type: jsPsychSurvey,
+    survey_json: {
+      elements: [
+        {
+          type: "text",
+          name: "account_number",
+          title: "본인 계좌번호를 입력해 주세요 (예: 국민 12345678901234)",
+          isRequired: true
+        }
+      ]
+    },
+    button_label_finish: "제출",
+    data: { trial_tag: "account_info" },
+    on_start: function() {
+      document.getElementById('progress-indicator').innerText = '';
+    },
+    on_finish: function(data) {
+      if(data.response){
+        Object.entries(data.response).forEach(([k, v]) => data[k] = v);
+        delete data.response;
+      }
+    }
+  });
+
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <h2>설문 완료</h2>
+      <p>입력하신 계좌번호로 소정의 사례비가 지급됩니다.<br>
+      문의: <b>zaqs1578@pusan.ac.kr</b></p>
+      <p>참여해주셔서 감사합니다!</p>
+    `,
+    choices: ['종료'],
+    on_start: function() {
+      document.getElementById('progress-indicator').innerText = '';
+    }
+  });
+
+  jsPsych.run(timeline);
+</script>
+</html>
