@@ -156,6 +156,7 @@
               <source src="${audiofile}" type="audio/wav">
               브라우저가 오디오 태그를 지원하지 않습니다.
             </audio>
+            <p style="font-weight:bold; margin-top:0.9em; margin-bottom:0.5em;">Q. 이 목소리의 주인공은...</p>
             <hr>
           `
         },
@@ -179,7 +180,7 @@
         {
           type: "rating",
           name: "gender",
-          title: "목소리의 젠더(성별) 느낌은 어디에 가깝나요?",
+          title: "어떤 성별로 들리나요?",
           rateMin: 1,
           rateMax: 5,
           isRequired: true,
@@ -199,7 +200,7 @@
         {
           type: "radiogroup",
           name: "dialect_like",
-          title: "이 목소리가 사투리처럼 들리나요?",
+          title: "사투리처럼 들리나요?",
           choices: ["예", "아니요"],
           isRequired: true,
           requiredErrorText: "반드시 선택해주세요."
@@ -216,7 +217,7 @@
         {
           type: "rating",
           name: "naturalness",
-          title: "이 목소리가 얼마나 자연스럽게 들리나요?",
+          title: "얼마나 자연스럽게 들리나요?",
           rateMin: 1,
           rateMax: 5,
           isRequired: true,
@@ -242,7 +243,6 @@
       button_label_finish: "다음",
       data: { audio_file: audiofile, trial_tag: 'audio_trial' },
       on_start: function() {
-        // 오디오 재생 여부 추적
         window.audioPlayed = false;
         setTimeout(() => {
           const audio = document.querySelector('audio');
@@ -257,7 +257,6 @@
           Object.entries(data.response).forEach(([k, v]) => data[k] = v);
           delete data.response;
         }
-        // 오디오 재생 여부 저장
         data.audio_played = window.audioPlayed ? true : false;
       }
     });
