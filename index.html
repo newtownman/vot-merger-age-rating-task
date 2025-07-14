@@ -129,12 +129,19 @@
         const account_number = account_trial ? account_trial.account_number || null : null;
         const name = account_trial ? account_trial.name || null : null;
         const contact = account_trial ? account_trial.contact || null : null;
+        // 추가: 참가자 나이, 성별, 방언
+        const participant_age = account_trial ? account_trial.participant_age || null : null;
+        const participant_gender = account_trial ? account_trial.participant_gender || null : null;
+        const participant_dialect = account_trial ? account_trial.participant_dialect || null : null;
 
         db.ref('responses').push({
           trials: trials,
           name: name,
           contact: contact,
           account_number: account_number,
+          participant_age: participant_age,
+          participant_gender: participant_gender,
+          participant_dialect: participant_dialect,
           timestamp: new Date().toISOString()
         });
       }
@@ -304,6 +311,28 @@
             title: "본인 계좌번호를 입력해 주세요 (예: 국민 12345678901234)",
             isRequired: true,
             requiredErrorText: "계좌번호를 입력해주세요."
+          },
+          {
+            type: "text",
+            name: "participant_age",
+            title: "본인 나이를 입력해 주세요",
+            inputType: "number",
+            isRequired: true,
+            requiredErrorText: "나이를 입력해주세요."
+          },
+          {
+            type: "text",
+            name: "participant_gender",
+            title: "본인 성별을 입력해 주세요 (예: 남성, 여성, 기타 등)",
+            isRequired: true,
+            requiredErrorText: "성별을 입력해주세요."
+          },
+          {
+            type: "text",
+            name: "participant_dialect",
+            title: "본인이 평소 가장 많이 쓰는 방언(예: 서울, 경상, 전라, 충청, 제주 등)을 입력해 주세요",
+            isRequired: true,
+            requiredErrorText: "방언을 입력해주세요."
           }
         ]
       },
@@ -325,7 +354,7 @@
       stimulus: `
         <h2>설문 완료</h2>
         <p style="color:#b00; font-size:0.98em; margin-top:1em;">
-          ※ 이름, 연락처, 계좌번호는 중복 참가 방지 및 사례비 지급을 위해서만 사용되며,<br>
+          ※ 이름, 연락처, 계좌번호, 나이, 성별, 방언 정보는 중복 참가 방지 및 사례비 지급을 위해서만 사용되며,<br>
           설문 종료 후 일정 기간 내 안전하게 파기됩니다.
         </p>
         <p>문의: <b>zaqs1578@pusan.ac.kr</b></p>
